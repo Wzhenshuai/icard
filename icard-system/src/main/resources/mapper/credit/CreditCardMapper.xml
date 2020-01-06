@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icard.credit.mapper.CreditCardMapper">
+  <resultMap id="BaseResultMap" type="com.icard.credit.domain.CreditCard">
+    <id column="card_id" jdbcType="BIGINT" property="cardId" />
+    <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+    <result column="card_type" jdbcType="VARCHAR" property="cardType" />
+    <result column="card_number" jdbcType="VARCHAR" property="cardNumber" />
+    <result column="card_amount" jdbcType="DECIMAL" property="cardAmount" />
+    <result column="card_balance" jdbcType="DECIMAL" property="cardBalance" />
+    <result column="use_amount" jdbcType="DECIMAL" property="useAmount" />
+    <result column="hk_date" jdbcType="TIMESTAMP" property="hkDate" />
+    <result column="cz_date" jdbcType="TIMESTAMP" property="czDate" />
+    <result column="apply_date" jdbcType="TIMESTAMP" property="applyDate" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    card_id, card_name, card_type, card_number, card_amount, card_balance, use_amount,
+    hk_date, cz_date, apply_date, del_flag, create_time, update_time
+  </sql>
+  <select id="getByLongId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from credit_card
+    where card_id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="findList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from credit_card
+    where  1 = 1
+    <if test="cardType != null and cardType != ''">
+      AND card_type LIKE concat('%',#{cardType},'%')
+    </if>
+    <if test="cardName != null and cardName != ''">
+    AND card_name LIKE concat('%',#{cardName},'%')
+  </if>
+  order by card_id
+  </select>
+
+  <update id="delete" parameterType="java.lang.Long">
+    update credit_card set del_flag = '1' ,update_time = now()
+    where card_id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <insert id="insert" parameterType="com.icard.credit.domain.CreditCard">
+    insert into credit_card (card_id, card_name, card_type,
+      card_number, card_amount, card_balance,
+      use_amount, hk_date, cz_date,
+      apply_date, del_flag, create_time,
+      update_time)
+    values (#{cardId,jdbcType=BIGINT}, #{cardName,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR},
+      #{cardNumber,jdbcType=VARCHAR}, #{cardAmount,jdbcType=DECIMAL}, #{cardBalance,jdbcType=DECIMAL},
+      #{useAmount,jdbcType=DECIMAL}, #{hkDate,jdbcType=TIMESTAMP}, #{czDate,jdbcType=TIMESTAMP},
+      #{applyDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="update" parameterType="com.icard.credit.domain.CreditCard">
+    update credit_card
+    set card_name = #{cardName,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=VARCHAR},
+      card_number = #{cardNumber,jdbcType=VARCHAR},
+      card_amount = #{cardAmount,jdbcType=DECIMAL},
+      card_balance = #{cardBalance,jdbcType=DECIMAL},
+      use_amount = #{useAmount,jdbcType=DECIMAL},
+      hk_date = #{hkDate,jdbcType=TIMESTAMP},
+      cz_date = #{czDate,jdbcType=TIMESTAMP},
+      apply_date = #{applyDate,jdbcType=TIMESTAMP},
+      #{delFlag,jdbcType=CHAR},
+      #{updateTime,jdbcType=TIMESTAMP}
+    where card_id = #{cardId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icard.credit.mapper.TradeHistoryMapper2">
+  <resultMap id="BaseResultMap" type="com.icard.credit.domain.TradeHistory">
+    <id column="his_id" jdbcType="BIGINT" property="hisId" />
+    <result column="story_name" jdbcType="VARCHAR" property="storyName" />
+    <result column="story_note" jdbcType="VARCHAR" property="storyNote" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="trade_status" jdbcType="VARCHAR" property="tradeStatus" />
+    <result column="deals_status" jdbcType="VARCHAR" property="dealsStatus" />
+    <result column="recorded_way" jdbcType="VARCHAR" property="recordedWay" />
+    <result column="paying_status" jdbcType="VARCHAR" property="payingStatus" />
+    <result column="agent_no" jdbcType="VARCHAR" property="agentNo" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="pos_type" jdbcType="VARCHAR" property="posType" />
+    <result column="clo_quick" jdbcType="VARCHAR" property="cloQuick" />
+    <result column="terminal_no" jdbcType="VARCHAR" property="terminalNo" />
+    <result column="trade_time" jdbcType="VARCHAR" property="tradeTime" />
+    <result column="trade_code" jdbcType="VARCHAR" property="tradeCode" />
+    <result column="consume_type" jdbcType="VARCHAR" property="consumeType" />
+    <result column="consume_card_id" jdbcType="VARCHAR" property="consumeCardId" />
+    <result column="card_sort" jdbcType="VARCHAR" property="cardSort" />
+    <result column="trade_amount" jdbcType="DECIMAL" property="tradeAmount" />
+    <result column="trade_fee" jdbcType="DECIMAL" property="tradeFee" />
+    <result column="card_type" jdbcType="VARCHAR" property="cardType" />
+    <result column="authen_status" jdbcType="VARCHAR" property="authenStatus" />
+    <result column="card_bank" jdbcType="VARCHAR" property="cardBank" />
+    <result column="back_code" jdbcType="VARCHAR" property="backCode" />
+    <result column="back_msg" jdbcType="VARCHAR" property="backMsg" />
+    <result column="flow_status" jdbcType="VARCHAR" property="flowStatus" />
+    <result column="supper_trade" jdbcType="VARCHAR" property="supperTrade" />
+    <result column="both_free" jdbcType="VARCHAR" property="bothFree" />
+    <result column="activity_name" jdbcType="VARCHAR" property="activityName" />
+    <result column="pay_channel" jdbcType="VARCHAR" property="payChannel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    his_id, story_name, story_note, trade_type, trade_status, deals_status, recorded_way, 
+    paying_status, agent_no, agent_name, pos_type, clo_quick, terminal_no, trade_time, 
+    trade_code, consume_type, consume_card_id, card_sort, trade_amount, trade_fee, card_type, 
+    authen_status, card_bank, back_code, back_msg, flow_status, supper_trade, both_free, 
+    activity_name, pay_channel
+  </sql>
+  <select id="findList2" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade_history
+  </select>
+
+  <insert id="insert" parameterType="com.icard.credit.domain.TradeHistory">
+    insert into trade_history (his_id, story_name, story_note, 
+      trade_type, trade_status, deals_status, 
+      recorded_way, paying_status, agent_no, 
+      agent_name, pos_type, clo_quick, 
+      terminal_no, trade_time, trade_code, 
+      consume_type, consume_card_id, card_sort, 
+      trade_amount, trade_fee, card_type, 
+      authen_status, card_bank, back_code, 
+      back_msg, flow_status, supper_trade, 
+      both_free, activity_name, pay_channel
+      )
+    values (#{hisId,jdbcType=BIGINT}, #{storyName,jdbcType=VARCHAR}, #{storyNote,jdbcType=VARCHAR}, 
+      #{tradeType,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=VARCHAR}, #{dealsStatus,jdbcType=VARCHAR}, 
+      #{recordedWay,jdbcType=VARCHAR}, #{payingStatus,jdbcType=VARCHAR}, #{agentNo,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{posType,jdbcType=VARCHAR}, #{cloQuick,jdbcType=VARCHAR}, 
+      #{terminalNo,jdbcType=VARCHAR}, #{tradeTime,jdbcType=VARCHAR}, #{tradeCode,jdbcType=VARCHAR}, 
+      #{consumeType,jdbcType=VARCHAR}, #{consumeCardId,jdbcType=VARCHAR}, #{cardSort,jdbcType=VARCHAR}, 
+      #{tradeAmount,jdbcType=DECIMAL}, #{tradeFee,jdbcType=DECIMAL}, #{cardType,jdbcType=VARCHAR}, 
+      #{authenStatus,jdbcType=VARCHAR}, #{cardBank,jdbcType=VARCHAR}, #{backCode,jdbcType=VARCHAR}, 
+      #{backMsg,jdbcType=VARCHAR}, #{flowStatus,jdbcType=VARCHAR}, #{supperTrade,jdbcType=VARCHAR}, 
+      #{bothFree,jdbcType=VARCHAR}, #{activityName,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}
+      )
+  </insert>
+
+</mapper>

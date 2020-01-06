@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+		<th:block th:include="include :: header('列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="role-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								发卡行：<input type="text" name="cardBank"/>
+							</li>
+							<li>
+								卡类型：<input type="text" name="cardType"/>
+							</li>
+							<li>
+								交易状态：<select name="tradeStatus" th:with="type=${@dict.getType('sys_normal_disable')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li class="select-time">
+								<label>创建时间： </label>
+								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="fn.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('system:role:edit')}]];
+		var prefix = ctx + "credit/trade";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        sortName: "hisId",
+		        modalName: "角色",
+		        columns: [{
+		            checkbox: true
+		        },{
+		            field: 'storyName',
+		            title: '商户名称'
+		        },{
+		            field: 'tradeType',
+		            title: '交易类型',
+		            sortable: true
+		        },{
+		            field: 'tradeStatus',
+		            title: '交易状态',
+		            sortable: true
+		        },{
+		            field: 'dealsWay',
+		            title: '交易结算类型',
+		            sortable: true
+		        },{
+					field: 'tradeTime',
+					title: '交易时间',
+					sortable: true
+				},{
+					field: 'tradeCode',
+					title: '交易流水号',
+					sortable: true
+				},{
+					field: 'consumeCardId',
+					title: '卡号',
+					sortable: true
+				},{
+					field: 'tradeAmount',
+					title: '交易金额(元)',
+					sortable: true
+				},{
+					field: 'tradeFee',
+					title: '交易手续费(元)',
+					sortable: true
+				},{
+					field: 'cardBank',
+					title: '发卡行',
+					sortable: true
+				},{
+					field: 'backCode',
+					title: '返回码',
+					sortable: true
+				},{
+					field: 'backMsg',
+					title: '返回信息',
+					sortable: true
+				},{
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		                var actions = [];
+		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.tradeCode + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                return actions.join('');
+		            }
+		        }]
+		    };
+		    $.table.init(options);
+		});
+
+	</script>
+</body>
+</html>
